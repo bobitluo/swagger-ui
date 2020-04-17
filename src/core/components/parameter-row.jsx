@@ -263,21 +263,25 @@ export default class ParameterRow extends Component {
             { param.get("name") }
             { !required ? null : <span style={{color: "red"}}>&nbsp;*</span> }
           </div>
-          <div className="parameter__type">
-            { type }
-            { itemType && `[${itemType}]` }
-            { format && <span className="prop-format">(${format})</span>}
+          <div>
+            <span className="parameter__type">
+              { type }
+              { itemType && `[${itemType}]` }
+              { format && <span className="prop-format">(${format})</span>}
+            </span>
+            <span className="parameter__in">({ param.get("in") })</span>
           </div>
           <div className="parameter__deprecated">
             { isOAS3 && param.get("deprecated") ? "deprecated": null }
           </div>
-          <div className="parameter__in">({ param.get("in") })</div>
           { !showCommonExtensions || !commonExt.size ? null : commonExt.map((v, key) => <ParameterExt key={`${key}-${v}`} xKey={key} xVal={v} /> )}
           { !showExtensions || !extensions.size ? null : extensions.map((v, key) => <ParameterExt key={`${key}-${v}`} xKey={key} xVal={v} /> )}
         </td>
 
         <td className="parameters-col_description">
+{/*
           { param.get("description") ? <Markdown source={ param.get("description") }/> : null }
+*/}
 
           { (bodyParam || !isExecute) && isDisplayParamEnum ?
             <Markdown className="parameter__enum" source={
@@ -286,11 +290,12 @@ export default class ParameterRow extends Component {
                   }).toArray().join(", ")}/>
             : null
           }
-
+{/*
           { (bodyParam || !isExecute) && paramDefaultValue !== undefined ?
             <Markdown className="parameter__default" source={"<i>Default value</i> : " + paramDefaultValue}/>
             : null
           }
+*/}
 
           {(isFormData && !isFormDataSupported) && <div>Error: your browser does not support FormData</div>}
 
@@ -316,7 +321,9 @@ export default class ParameterRow extends Component {
                               value={ value }
                               required={ required }
                               disabled={!isExecute}
+/*
                               description={param.get("description") ? `${param.get("name")} - ${param.get("description")}` : `${param.get("name")}`}
+*/
                               onChange={ this.onChangeWrapper }
                               errors={ paramWithMeta.get("errors") }
                               schema={ schema }/>
@@ -356,6 +363,7 @@ export default class ParameterRow extends Component {
             ) : null
           }
 
+          <span> { param.get("description") } </span>
         </td>
 
       </tr>
